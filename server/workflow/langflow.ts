@@ -19,9 +19,6 @@ class LangflowClient {
     headers["Content-Type"] = "application/json";
     const url = `${this.baseURL}${endpoint}`;
     
-    console.log("POST Request URL:", url);
-    console.log("Request Headers:", headers);
-    console.log("Request Body:", body);
   
     try {
       const response = await fetch(url, {
@@ -40,8 +37,6 @@ class LangflowClient {
       }
   
       if (!response.ok) {
-        console.error("Response Status:", response.status, response.statusText);
-        console.error("Response Body:", JSON.stringify(responseMessage, null, 2)); // Better logging
         throw new Error(
           `${response.status} ${response.statusText} - ${JSON.stringify(
             responseMessage
@@ -51,13 +46,9 @@ class LangflowClient {
   
       return responseMessage;
     } catch (error) {
-      console.error("Request Error:", error.message);
       throw error;
     }
   }
-  
-  
-  
 
   async initiateSession(
     flowId: string,
@@ -91,7 +82,6 @@ class LangflowClient {
     };
 
     eventSource.onerror = (event) => {
-      console.error("Stream Error:", event);
       onError(event);
       eventSource.close();
     };
@@ -158,7 +148,7 @@ export async function runAIWorkFlow(
 ) {
   const flowIdOrName = "6c754945-8fa4-4c16-9058-66e251bd3881";
   const langflowId = "46a3dfea-9f48-4559-b35b-8fb5f147b871";
-  const applicationToken = "AstraCS:zFdvMFIFLEKWGkYmPAyJwMWx:12a3e76c53829fe9f0c7b3eb863eac0d84d6e3043c7466fba3aee652147eb5d8";
+  const applicationToken = process.env.LANGFLOW_TOKEN
   const langflowClient = new LangflowClient(
     "https://api.langflow.astra.datastax.com",
     applicationToken

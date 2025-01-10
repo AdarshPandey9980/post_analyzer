@@ -84,6 +84,6 @@ app.get("/analyse-posts", async (req: Request, res: Response) => {
   res.status(200).json({ response });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT || 5000, () => {
   console.log("Server is listening in the port " + PORT);
 });
